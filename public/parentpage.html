@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>광고 홈페이지 - 응급실</title>
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    /* 필요시 추가 스타일 */
+    /* ol 기본 번호 제거 (JS에서 직접 "1. 내용" 붙임) */
+    #rankingList {
+      list-style: none;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- 헤더 (정적 자리 표시자) -->
+  <header class="bg-white shadow p-4">
+    <h1 class="text-3xl font-bold">헤더 영역</h1>
+    <!-- 실제 header 콘텐츠를 여기에 추가 -->
+  </header>
+
+  <!-- 모달 (정적 자리 표시자) -->
+  <div id="modal" class="hidden">
+    <!-- 실제 모달 콘텐츠를 여기에 추가 -->
+  </div>
+
+  <!-- 메인 컨테이너 (하단 여백 mb-8 추가) -->
+  <main class="w-full max-w-screen-xl mx-auto px-4 sm:px-8 mt-8 mb-8 flex flex-col gap-6">
+    <!-- (1) 상단: 응급실 타이틀 + 북마크 -->
+    <section>
+      <!-- 응급실 배경/타이틀 (왼쪽 정렬) -->
+      <div class="bg-gradient-to-r from-gray-800 to-blue-500 text-white p-6 rounded-lg shadow mb-6">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-2">응급실</h1>
+        <p class="text-lg sm:text-xl">우리동네 응급실 정보를 소개합니다</p>
+      </div>
+
+      <!-- 북마크 영역 (왼쪽 정렬) -->
+      <div class="bg-white p-4 rounded-lg shadow border border-gray-300">
+        <div class="bg-blue-100 p-6 rounded-lg">
+          <h2 class="text-2xl font-bold mb-6">북마크</h2>
+          <!-- 북마크한 항목들이 버튼 형태로 표시될 영역 -->
+          <div id="bookmarkContainer" class="flex flex-wrap gap-3 justify-start">
+            <!-- JS로 동적으로 추가 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- (2) 하단: 좌측 광고 목록 + 우측 사이드바 -->
+    <div class="flex flex-col lg:flex-row gap-6 items-stretch">
+      <!-- 좌측: 광고 목록 (응급실 광고 12개, 페이지네이션 포함) -->
+      <section class="flex-1 border-2 border-gray-300 rounded-lg p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="emergencyAdsContainer">
+          <!-- JS로 광고 카드(최대 12개) 동적 생성 -->
+        </div>
+        <!-- 페이지네이션 영역 -->
+        <div id="pagination" class="mt-4 flex justify-center gap-4"></div>
+      </section>
+
+      <!-- 우측: 사이드바 영역 -->
+      <aside class="w-full lg:w-1/4 xl:w-1/5 flex flex-col gap-6 self-start">
+        <!-- (A) 우리동네 MVP 박스 -->
+        <div class="bg-white shadow border border-gray-300 rounded-lg p-4">
+          <h2 class="text-2xl font-extrabold text-yellow-500 mb-4 text-center">우리동네 인기명소</h2>
+          <!-- 배경 이미지 + 강화된 오버레이 및 텍스트 스타일 -->
+          <div id="mvpBox" class="relative bg-cover bg-center h-64 rounded-lg shadow-2xl cursor-pointer border-4 border-yellow-500"
+            style="background-image: url('https://source.unsplash.com/random/1200x400/?luxury,architecture');">
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-60 rounded-lg"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <h2 id="mvpName" class="text-5xl font-extrabold text-white drop-shadow-2xl tracking-wider">VIP 병원</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- (B) 검색어 박스: 높이 조정 (인라인 스타일 사용) -->
+        <div class="bg-white shadow border border-gray-300 rounded-lg p-6" style="min-height: 310px;">
+          <h2 class="text-3xl font-bold mb-6 text-center">검색어</h2>
+          <!-- 검색어 목록 -->
+          <ol id="rankingList" class="pl-0 text-gray-700 space-y-3 text-2xl leading-snug">
+            <!-- JS로 1~5위 순위 동적 생성 -->
+          </ol>
+        </div>
+
+        <!-- (C) 독립 광고 박스 1 -->
+        <div class="mt-auto">
+          <a href="https://example.com/ad1" target="_blank" class="block">
+            <img src="https://source.unsplash.com/random/400x200/?advertisement" alt="광고"
+              class="w-full h-64 object-cover rounded shadow" />
+          </a>
+        </div>
+
+        <!-- (D) 독립 광고 박스 2 -->
+        <div class="mt-auto">
+          <a href="https://example.com/ad2" target="_blank" class="block">
+            <img src="https://source.unsplash.com/random/400x200/?advertisement" alt="광고"
+              class="w-full h-64 object-cover rounded shadow" />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- 푸터 (정적 자리 표시자) -->
+  <footer class="bg-gray-800 text-white p-4 text-center">
+    <p>푸터 영역 - Footer Placeholder</p>
+  </footer>
+
+  <!-- JavaScript 코드 (인라인) -->
+  <script>
+    // 모달 열기 함수
+    function openModalWithData(data) {
+      if (window.populateModal) {
+        window.populateModal(data);
+        document.getElementById("modalOverlay").classList.remove("hidden");
+        document.getElementById("commonModal").classList.remove("hidden");
+      } else {
+        console.error("populateModal 함수가 로드되지 않았습니다.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // MVP 예시 데이터
+      const mvpData = {
+        title: "VIP 병원",
+        phone: "010-1234-5678",
+        image: "https://source.unsplash.com/random/1200x400/?luxury,modern",
+        address: "서울특별시 강남구 역삼동 123-45",
+        category: "VIP",
+        delivery: "정보 없음",
+        hours: "정보 없음",
+        serviceItems: "정보 없음",
+        events: ["특가 이벤트", ""],
+        facilities: "휠체어 접근 가능",
+        pets: "정보 없음",
+        parking: "무료 주차",
+        sliderImages: ["https://source.unsplash.com/random/1200x400/?luxury,modern"]
+      };
+
+      // MVP 영역 설정
+      const mvpNameElem = document.getElementById("mvpName");
+      if (mvpNameElem) {
+        mvpNameElem.textContent = mvpData.title;
+      }
+      const mvpBox = document.getElementById("mvpBox");
+      if (mvpBox) {
+        mvpBox.addEventListener("click", () => {
+          openModalWithData(mvpData);
+        });
+      }
+
+      // 광고 데이터 (응급실)
+      const generalAdsData = [{
+          title: "대학병원",
+          category: "응급실",
+          phone: "010-1234-5678",
+          img: "https://via.placeholder.com/300x200/111111",
+          events: "신규 할인",
+          facilities: "휠체어 접근 가능",
+          parking: "무료 주차"
+        },
+        {
+          title: "영한병원",
+          category: "응급실",
+          phone: "010-1111-2222",
+          img: "https://via.placeholder.com/300x200/aaaaaa",
+          events: "이벤트 중",
+          facilities: "없음",
+          parking: "유료 주차"
+        },
+        {
+          title: "서울대병원",
+          category: "응급실",
+          phone: "010-2222-3333",
+          img: "https://via.placeholder.com/300x200/bbbbbb",
+          events: "시즌 할인",
+          facilities: "휠체어 리프트 있음",
+          parking: "무료 주차"
+        },
+        {
+          title: "지역병원",
+          category: "응급실",
+          phone: "010-3333-4444",
+          img: "https://via.placeholder.com/300x200/cccccc",
+          events: "특가 행사",
+          facilities: "없음",
+          parking: "유료 주차"
+        },
+        {
+          title: "한국병원",
+          category: "응급실",
+          phone: "010-4444-5555",
+          img: "https://via.placeholder.com/300x200/dddddd",
+          events: "특가 행사",
+          facilities: "없음",
+          parking: "유료 주차"
+        },
+        {
+          title: "제병원원",
+          category: "응급실",
+          phone: "010-5555-6666",
+          img: "https://via.placeholder.com/300x200/eeeeee",
+          events: "특가 행사",
+          facilities: "없음",
+          parking: "유료 주차"
+        },
+        {
+          title: "한세병원",
+          category: "응급실",
+          phone: "010-6666-7777",
+          img: "https://via.placeholder.com/300x200/ffffff",
+          events: "특가 행사",
+          facilities: "없음",
+          parking: "유료 주차"
+        },
+        {
+          title: "병원병원",
+          category: "응급실",
+          phone: "010-7777-8888",
+          img: "https://via.placeholder.com/300x200/999999",
+          events: "특가 행사",
+          facilities: "없음",
+          parking: "유료 주차"
+        },
+        {
+          title: "대학병원 복제",
+          category: "응급실",
+          phone: "010-1234-5678",
+          img: "https://via.placeholder.com/300x200/111111",
+          events: "신규 할인",
+          facilities: "휠체어 접근 가능",
+          parking: "무료 주차"
+        },
+        {
+          title: "영한병원 복제",
+          category: "응급실",
+          phone: "010-1111-2222",
+          img: "https://via.placeholder.com/300x200/aaaaaa",
+          events: "이벤트 중",
+          facilities: "없음",
+          parking: "유료 주차"
+        },
+        {
+          title: "서울대병원 복제",
+          category: "응급실",
+          phone: "010-2222-3333",
+          img: "https://via.placeholder.com/300x200/bbbbbb",
+          events: "시즌 할인",
+          facilities: "휠체어 리프트 있음",
+          parking: "무료 주차"
+        },
+        {
+          title: "지역병원 복제",
+          category: "응급실",
+          phone: "010-3333-4444",
+          img: "https://via.placeholder.com/300x200/cccccc",
+          events: "특가 행사",
+          facilities: "없음",
+          parking: "유료 주차"
+        }
+      ];
+
+      const pageSize = 12;
+      let currentPage = 1;
+      let filteredAds = generalAdsData.filter(ad => ad.category === "응급실");
+      let totalPages = Math.ceil(filteredAds.length / pageSize);
+
+      function createAdCard(ad) {
+        const adBox = document.createElement("div");
+        adBox.className =
+          "ad-card bg-white shadow-lg rounded-lg p-6 flex flex-col border-2 border-gray-300 transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl";
+        adBox.dataset.title = ad.title;
+        adBox.dataset.phone = ad.phone;
+        adBox.dataset.img = ad.img;
+        adBox.dataset.events = ad.events;
+        adBox.dataset.facilities = ad.facilities;
+        adBox.dataset.parking = ad.parking;
+        adBox.dataset.category = ad.category;
+        adBox.innerHTML = `
+            <img src="${ad.img}" alt="${ad.title}" class="h-40 w-full object-cover rounded mb-4" />
+            <h2 class="text-2xl font-bold text-center mb-2">${ad.title}</h2>
+            <p class="text-lg text-gray-500 text-center">${ad.phone}</p>
+            <button class="open-modal mt-4 bg-blue-500 text-white py-2 px-4 rounded text-center shadow-lg hover:bg-blue-600">
+              상세보기
+            </button>
+          `;
+        return adBox;
+      }
+
+      function renderAdsPage(page) {
+        const container = document.getElementById("emergencyAdsContainer");
+        container.innerHTML = "";
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        filteredAds.slice(start, end).forEach(ad => {
+          container.appendChild(createAdCard(ad));
+        });
+      }
+
+      function renderPaginationControls() {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+
+        // 이전 버튼
+        const prevBtn = document.createElement("button");
+        prevBtn.textContent = "이전";
+        prevBtn.className = "bg-gray-300 text-gray-800 py-1 px-3 rounded hover:bg-gray-400";
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.addEventListener("click", () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderAdsPage(currentPage);
+            renderPaginationControls();
+          }
+        });
+        pagination.appendChild(prevBtn);
+
+        // 페이지 번호 버튼
+        for (let i = 1; i <= totalPages; i++) {
+          const pageBtn = document.createElement("button");
+          pageBtn.textContent = i;
+          pageBtn.className = "bg-gray-200 text-gray-800 py-1 px-3 rounded hover:bg-gray-300";
+          if (i === currentPage) {
+            pageBtn.classList.add("font-bold", "bg-blue-500", "text-white");
+          }
+          pageBtn.addEventListener("click", () => {
+            currentPage = i;
+            renderAdsPage(currentPage);
+            renderPaginationControls();
+          });
+          pagination.appendChild(pageBtn);
+        }
+
+        // 다음 버튼
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = "다음";
+        nextBtn.className = "bg-gray-300 text-gray-800 py-1 px-3 rounded hover:bg-gray-400";
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener("click", () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderAdsPage(currentPage);
+            renderPaginationControls();
+          }
+        });
+        pagination.appendChild(nextBtn);
+      }
+
+      // "상세보기" 버튼 클릭 시 모달 열기
+      document.addEventListener("click", (e) => {
+        if (e.target.matches(".open-modal")) {
+          e.preventDefault();
+          const adCard = e.target.closest(".ad-card");
+          if (!adCard) return;
+          const data = {
+            title: adCard.dataset.title,
+            phone: adCard.dataset.phone,
+            image: adCard.dataset.img,
+            address: "주소 미정",
+            category: adCard.dataset.category,
+            delivery: "정보 없음",
+            hours: "정보 없음",
+            serviceItems: "정보 없음",
+            events: [adCard.dataset.events],
+            facilities: adCard.dataset.facilities,
+            pets: "정보 없음",
+            parking: adCard.dataset.parking,
+            sliderImages: [adCard.dataset.img]
+          };
+          openModalWithData(data);
+        }
+      });
+
+      // 검색어 출력
+      const rankingList = document.getElementById("rankingList");
+      if (rankingList) {
+        const searchRanking = [{
+            name: "응급실 운영 시간",
+            link: "search.php?keyword=응급실+운영+시간"
+          },
+          {
+            name: "병원 예약",
+            link: "search.php?keyword=병원+예약"
+          },
+          {
+            name: "응급실 위치",
+            link: "search.php?keyword=응급실+위치"
+          },
+          {
+            name: "응급실 대기시간",
+            link: "search.php?keyword=응급실+대기시간"
+          },
+          {
+            name: "응급실 후기",
+            link: "search.php?keyword=응급실+후기"
+          }
+        ];
+        rankingList.innerHTML = "";
+        searchRanking.forEach((item, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <a href="${item.link}" 
+               class="block w-full text-black hover:underline truncate text-left" 
+               title="${item.name}">
+               ${index + 1}. ${item.name}
+            </a>`;
+          rankingList.appendChild(li);
+        });
+      }
+
+      renderAdsPage(currentPage);
+      renderPaginationControls();
+    });
+  </script>
+</body>
+
+</html>

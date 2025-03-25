@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>홍길동동물병원 상세 페이지</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1DA1F2',
+            secondary: '#657786'
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- 카카오 지도 API -->
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY&libraries=services" defer></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <!-- 헤더 -->
+  <header class="bg-white shadow-md py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-800">My Website</h1>
+      <nav class="space-x-4">
+        <a href="#" class="text-gray-600 hover:text-primary">Home</a>
+        <a href="#" class="text-gray-600 hover:text-primary">List</a>
+        <a href="#" class="text-gray-600 hover:text-primary">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 메인 -->
+  <main class="container mx-auto px-4 py-8 flex-1">
+    <!-- 좌우 섹션 높이 동일: grid에 h-full, items-stretch 적용 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full items-stretch">
+      <!-- 왼쪽 섹션 -->
+      <section class="bg-white p-6 rounded shadow flex flex-col gap-6 h-full">
+        <!-- 이미지 슬라이더 -->
+        <div class="relative">
+          <img id="sliderImage" src="https://via.placeholder.com/600x400?text=IMAGE1" alt="가게 이미지" class="w-full h-64 object-cover rounded shadow mb-2">
+          <button id="prevBtn" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded px-3 py-1">이전</button>
+          <button id="nextBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded px-3 py-1">다음</button>
+        </div>
+
+        <!-- 지도 -->
+        <div class="bg-gray-200 border border-gray-400 rounded-lg p-4">
+          <h2 class="text-lg font-semibold mb-2">가게 위치</h2>
+          <p id="addressText" class="text-sm text-gray-700 mb-2">서울특별시 중구 세종대로 110</p>
+          <div id="map" class="w-full h-40 bg-gray-300 flex items-center justify-center text-gray-700">
+            지도 로드 중...
+          </div>
+        </div>
+
+        <!-- 메뉴 박스 -->
+        <div id="menuBox" class="bg-gray-50 border border-gray-300 rounded p-4 overflow-hidden transition-all duration-300 max-h-[13rem] hover:max-h-[2000px]">
+          <h2 class="text-lg font-bold mb-4">메뉴 (20개 예시)</h2>
+          <!-- 메뉴 항목들은 JS로 생성 -->
+          <ul id="menuList" class="space-y-2"></ul>
+        </div>
+      </section>
+
+      <!-- 오른쪽 섹션 -->
+      <section class="bg-white p-6 rounded shadow flex flex-col gap-4 h-full">
+        <h2 class="text-3xl font-bold text-gray-800 border-b pb-3">상호명</h2>
+        <div>
+          <p class="text-lg"><strong>업종:</strong> 동물병원</p>
+          <p class="text-lg"><strong>배달:</strong> 가능</p>
+          <p class="text-lg"><strong>영업시간:</strong> 09:00 - 18:00</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded border">
+          <h3 class="text-xl font-bold mb-2">서비스 내용</h3>
+          <p class="text-gray-700">24시간 응급 진료 및 예방접종</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded border">
+          <h3 class="text-xl font-bold mb-2">이벤트</h3>
+          <ul class="list-disc pl-6 space-y-1">
+            <li>봄맞이 할인</li>
+            <li>무료 건강검진</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 p-4 rounded border">
+          <h3 class="text-xl font-bold mb-2">추가 정보</h3>
+          <ul class="list-disc pl-6 space-y-1">
+            <li><strong>장애인 편의시설:</strong> 있음</li>
+            <li><strong>반려동물 출입:</strong> 가능</li>
+            <li><strong>주차:</strong> 가능</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 p-4 rounded border">
+          <h3 class="text-xl font-bold mb-2">연락처</h3>
+          <p><strong>전화번호:</strong> 02-123-4567</p>
+          <p>
+            <strong>홈페이지:</strong>
+            <a href="https://hospital.example.com" target="_blank" class="text-blue-600 underline">
+              https://hospital.example.com
+            </a>
+          </p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded border">
+          <h3 class="text-xl font-bold mb-2">추가 설명</h3>
+          <p class="text-gray-700">서울 중심에 위치한 믿을 수 있는 동물병원입니다.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="bg-gray-200 py-4">
+    <div class="container mx-auto px-4 text-center text-gray-600">
+      © 2025 MyWebsite. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- 스크립트 -->
+  <script>
+    // 이미지 슬라이더
+    const images = [
+      "https://via.placeholder.com/600x400?text=IMAGE1",
+      "https://via.placeholder.com/600x400?text=IMAGE2",
+      "https://via.placeholder.com/600x400?text=IMAGE3"
+    ];
+    let currentIndex = 0;
+    const sliderImage = document.getElementById("sliderImage");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      sliderImage.src = images[currentIndex];
+    });
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      sliderImage.src = images[currentIndex];
+    });
+
+    // 지도 업데이트 (주소 → 좌표 변환)
+    function updateMap(address) {
+      const mapContainer = document.getElementById("map");
+      const map = new kakao.maps.Map(mapContainer, {
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 3
+      });
+      const geocoder = new kakao.maps.services.Geocoder();
+      geocoder.addressSearch(address, (result, status) => {
+        if (status === kakao.maps.services.Status.OK) {
+          const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+          map.setCenter(coords);
+          new kakao.maps.Marker({ map, position: coords });
+        }
+      });
+    }
+
+    // DOM 로드 후 DB에서 정보 받아오기
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+
+      if (!id) {
+        alert("❌ ID 파라미터가 없습니다.");
+        return;
+      }
+
+      // 백엔드 API가 /store/:id 로 구성되었다고 가정
+      // Cloudtype에서 같은 오리진이면 /store/${id}, 
+      // 다른 도메인이면 'https://www.hongbono1.com/store/'+id 로 작성
+      fetch(`/store/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          // 상호명 (헤더 영역 h2)
+          document.querySelector("h2.text-3xl").textContent = data.businessName;
+
+          // 오른쪽 기본 정보
+          document.querySelectorAll("p.text-lg")[0].innerHTML = `<strong>업종:</strong> ${data.businessType}`;
+          document.querySelectorAll("p.text-lg")[1].innerHTML = `<strong>배달:</strong> ${data.deliveryOption}`;
+          document.querySelectorAll("p.text-lg")[2].innerHTML = `<strong>영업시간:</strong> ${data.businessHours}`;
+
+          // 서비스 내용 (첫 번째 bg-gray-50 내부 p 태그)
+          document.querySelectorAll(".bg-gray-50 p")[0].textContent = data.serviceDetails;
+
+          // 이벤트 (두 번째 bg-gray-50 ul)
+          document.querySelectorAll(".bg-gray-50 ul")[0].innerHTML = `
+            <li>${data.event1}</li>
+            <li>${data.event2}</li>
+          `;
+
+          // 추가 정보 (세 번째 bg-gray-50 ul)
+          document.querySelectorAll(".bg-gray-50 ul")[1].innerHTML = `
+            <li><strong>장애인 편의시설:</strong> ${data.facility}</li>
+            <li><strong>반려동물 출입:</strong> ${data.pets}</li>
+            <li><strong>주차:</strong> ${data.parking}</li>
+          `;
+
+          // 연락처 (네 번째 bg-gray-50 p, a)
+          document.querySelectorAll(".bg-gray-50 p")[1].innerHTML = `<strong>전화번호:</strong> ${data.phoneNumber}`;
+          const homepageLink = document.querySelector(".bg-gray-50 a");
+          homepageLink.textContent = data.homepage;
+          homepageLink.href = data.homepage;
+
+          // 추가 설명 (다섯 번째 bg-gray-50 p)
+          document.querySelectorAll(".bg-gray-50 p")[2].textContent = data.additionalDesc;
+
+          // 지도 주소 표시
+          const addressFull = data.roadAddress + ' ' + data.detailAddress;
+          document.getElementById("addressText").textContent = addressFull;
+          updateMap(addressFull);
+
+          // 메뉴 항목
+          const menuList = document.getElementById("menuList");
+          menuList.innerHTML = "";
+          if (data.menuItems && Array.isArray(data.menuItems)) {
+            data.menuItems.forEach((item) => {
+              const li = document.createElement("li");
+              li.className = "relative group flex items-center gap-3 border-b pb-2 cursor-pointer menu-item";
+              li.innerHTML = `
+                <img src="${item.menuImageUrl || 'https://via.placeholder.com/80?text=NOIMAGE'}"
+                     class="w-16 h-16 object-cover rounded border" alt="메뉴이미지">
+                <span class="font-semibold text-gray-800">${item.menuName}</span>
+                <span class="ml-auto text-gray-600">${item.menuPrice}원</span>
+                <div class="absolute left-0 top-full mt-1 w-max opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white border p-2 shadow-lg z-50">
+                  <p class="text-sm text-gray-800">${item.menuName} 추가 설명</p>
+                </div>
+              `;
+              menuList.appendChild(li);
+            });
+          } else {
+            menuList.innerHTML = "<li>메뉴가 없습니다.</li>";
+          }
+        })
+        .catch((err) => {
+          console.error("❌ 데이터 로딩 실패", err);
+          alert("서버에서 데이터를 가져오는 데 실패했습니다.");
+        });
+    });
+  </script>
+</body>
+</html>
