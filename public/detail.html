@@ -19,7 +19,7 @@
     };
   </script>
 
-  <!-- 카카오 지도 API -->
+  <!-- 카카오 지도 API (YOUR_APP_KEY를 실제 키로 교체) -->
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" defer></script>
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY&libraries=services" defer></script>
 </head>
@@ -38,7 +38,7 @@
 
   <!-- 메인 -->
   <main class="container mx-auto px-4 py-8 flex-1">
-    <!-- 좌우 섹션 높이 동일: grid에 h-full, items-stretch 적용 -->
+    <!-- 좌우 섹션 (이미지/지도/메뉴 vs. 기본정보/서비스/연락처 등) -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full items-stretch">
       <!-- 왼쪽 섹션 -->
       <section class="bg-white p-6 rounded shadow flex flex-col gap-6 h-full">
@@ -52,60 +52,76 @@
         <!-- 지도 -->
         <div class="bg-gray-200 border border-gray-400 rounded-lg p-4">
           <h2 class="text-lg font-semibold mb-2">가게 위치</h2>
-          <p id="addressText" class="text-sm text-gray-700 mb-2">서울특별시 중구 세종대로 110</p>
+          <p id="addressText" class="text-sm text-gray-700 mb-2">주소 없음</p>
           <div id="map" class="w-full h-40 bg-gray-300 flex items-center justify-center text-gray-700">
             지도 로드 중...
           </div>
         </div>
 
-        <!-- 메뉴 박스 -->
+        <!-- 메뉴 박스 (품목 입력) -->
         <div id="menuBox" class="bg-gray-50 border border-gray-300 rounded p-4 overflow-hidden transition-all duration-300 max-h-[13rem] hover:max-h-[2000px]">
-          <h2 class="text-lg font-bold mb-4">메뉴 (20개 예시)</h2>
-          <!-- 메뉴 항목들은 JS로 생성 -->
+          <h2 class="text-lg font-bold mb-4">메뉴 (최대 20개)</h2>
           <ul id="menuList" class="space-y-2"></ul>
         </div>
       </section>
 
       <!-- 오른쪽 섹션 -->
       <section class="bg-white p-6 rounded shadow flex flex-col gap-4 h-full">
-        <h2 class="text-3xl font-bold text-gray-800 border-b pb-3">상호명</h2>
+        <!-- 상호 및 기본 정보 -->
+        <h2 id="businessNameHeader" class="text-3xl font-bold text-gray-800 border-b pb-3">상호명</h2>
         <div>
-          <p class="text-lg"><strong>업종:</strong> 동물병원</p>
-          <p class="text-lg"><strong>배달:</strong> 가능</p>
-          <p class="text-lg"><strong>영업시간:</strong> 09:00 - 18:00</p>
+          <p class="text-lg" id="businessType"><strong>업종:</strong> 동물병원</p>
+          <p class="text-lg" id="deliveryOption"><strong>배달:</strong> 가능</p>
+          <p class="text-lg" id="businessHours"><strong>영업시간:</strong> 09:00 - 18:00</p>
         </div>
-        <div class="bg-gray-50 p-4 rounded border">
+
+        <!-- 서비스 내용 -->
+        <div class="bg-gray-50 p-4 rounded border" id="serviceDetailsSection">
           <h3 class="text-xl font-bold mb-2">서비스 내용</h3>
-          <p class="text-gray-700">24시간 응급 진료 및 예방접종</p>
+          <p class="text-gray-700" id="serviceDetails">24시간 응급 진료 및 예방접종</p>
         </div>
-        <div class="bg-gray-50 p-4 rounded border">
-          <h3 class="text-xl font-bold mb-2">이벤트</h3>
-          <ul class="list-disc pl-6 space-y-1">
+
+        <!-- 고객 이벤트 -->
+        <div class="bg-gray-50 p-4 rounded border" id="eventsSection">
+          <h3 class="text-xl font-bold mb-2">고객 이벤트</h3>
+          <ul class="list-disc pl-6 space-y-1" id="eventsList">
             <li>봄맞이 할인</li>
             <li>무료 건강검진</li>
           </ul>
         </div>
-        <div class="bg-gray-50 p-4 rounded border">
+
+        <!-- 추가 정보 -->
+        <div class="bg-gray-50 p-4 rounded border" id="additionalInfoSection">
           <h3 class="text-xl font-bold mb-2">추가 정보</h3>
-          <ul class="list-disc pl-6 space-y-1">
+          <ul class="list-disc pl-6 space-y-1" id="additionalInfoList">
             <li><strong>장애인 편의시설:</strong> 있음</li>
             <li><strong>반려동물 출입:</strong> 가능</li>
             <li><strong>주차:</strong> 가능</li>
           </ul>
         </div>
-        <div class="bg-gray-50 p-4 rounded border">
+
+        <!-- 연락처 (전화번호, 홈페이지, 인스타그램, 페이스북) -->
+        <div class="bg-gray-50 p-4 rounded border" id="contactSection">
           <h3 class="text-xl font-bold mb-2">연락처</h3>
-          <p><strong>전화번호:</strong> 02-123-4567</p>
-          <p>
+          <p id="contactPhone"><strong>전화번호:</strong> 02-123-4567</p>
+          <p id="contactHomepage">
             <strong>홈페이지:</strong>
-            <a href="https://hospital.example.com" target="_blank" class="text-blue-600 underline">
-              https://hospital.example.com
-            </a>
+            <a href="https://hospital.example.com" target="_blank" class="text-blue-600 underline">https://hospital.example.com</a>
+          </p>
+          <p id="contactInstagram">
+            <strong>인스타그램:</strong>
+            <a href="#" target="_blank" class="text-blue-600 underline">인스타그램 주소</a>
+          </p>
+          <p id="contactFacebook">
+            <strong>페이스북:</strong>
+            <a href="#" target="_blank" class="text-blue-600 underline">페이스북 주소</a>
           </p>
         </div>
-        <div class="bg-gray-50 p-4 rounded border">
+
+        <!-- 추가 설명 -->
+        <div class="bg-gray-50 p-4 rounded border" id="additionalDescSection">
           <h3 class="text-xl font-bold mb-2">추가 설명</h3>
-          <p class="text-gray-700">서울 중심에 위치한 믿을 수 있는 동물병원입니다.</p>
+          <p class="text-gray-700" id="additionalDesc">서울 중심에 위치한 믿을 수 있는 동물병원입니다.</p>
         </div>
       </section>
     </div>
@@ -120,8 +136,8 @@
 
   <!-- 스크립트 -->
   <script>
-    // 이미지 슬라이더
-    const images = [
+    // 이미지 슬라이더 기본 설정
+    let images = [
       "https://via.placeholder.com/600x400?text=IMAGE1",
       "https://via.placeholder.com/600x400?text=IMAGE2",
       "https://via.placeholder.com/600x400?text=IMAGE3"
@@ -157,8 +173,12 @@
       });
     }
 
-    // DOM 로드 후 DB에서 정보 받아오기
+    // DOM 로드 후 서버에서 데이터 받아오기
     window.addEventListener("DOMContentLoaded", () => {
+      const baseUrl = location.hostname === "localhost"
+        ? "http://localhost:3000"
+        : "https://port-0-homepage-m797s8q7efdcf1b2.sel4.cloudtype.app";
+
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
 
@@ -167,51 +187,48 @@
         return;
       }
 
-      // 백엔드 API가 /store/:id 로 구성되었다고 가정
-      // Cloudtype에서 같은 오리진이면 /store/${id}, 
-      // 다른 도메인이면 'https://www.hongbono1.com/store/'+id 로 작성
-      fetch(`/store/${id}`)
+      fetch(`${baseUrl}/store/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          // 상호명 (헤더 영역 h2)
-          document.querySelector("h2.text-3xl").textContent = data.businessName;
+          // 상호명
+          document.getElementById("businessNameHeader").textContent = data.businessName;
 
-          // 오른쪽 기본 정보
-          document.querySelectorAll("p.text-lg")[0].innerHTML = `<strong>업종:</strong> ${data.businessType}`;
-          document.querySelectorAll("p.text-lg")[1].innerHTML = `<strong>배달:</strong> ${data.deliveryOption}`;
-          document.querySelectorAll("p.text-lg")[2].innerHTML = `<strong>영업시간:</strong> ${data.businessHours}`;
+          // 기본 정보
+          document.getElementById("businessType").innerHTML = `<strong>업종:</strong> ${data.businessType}`;
+          document.getElementById("deliveryOption").innerHTML = `<strong>배달:</strong> ${data.deliveryOption}`;
+          document.getElementById("businessHours").innerHTML = `<strong>영업시간:</strong> ${data.businessHours}`;
 
-          // 서비스 내용 (첫 번째 bg-gray-50 내부 p 태그)
-          document.querySelectorAll(".bg-gray-50 p")[0].textContent = data.serviceDetails;
+          // 서비스 내용
+          document.getElementById("serviceDetails").textContent = data.serviceDetails;
 
-          // 이벤트 (두 번째 bg-gray-50 ul)
-          document.querySelectorAll(".bg-gray-50 ul")[0].innerHTML = `
+          // 고객 이벤트
+          document.getElementById("eventsList").innerHTML = `
             <li>${data.event1}</li>
             <li>${data.event2}</li>
           `;
 
-          // 추가 정보 (세 번째 bg-gray-50 ul)
-          document.querySelectorAll(".bg-gray-50 ul")[1].innerHTML = `
+          // 추가 정보
+          document.getElementById("additionalInfoList").innerHTML = `
             <li><strong>장애인 편의시설:</strong> ${data.facility}</li>
             <li><strong>반려동물 출입:</strong> ${data.pets}</li>
             <li><strong>주차:</strong> ${data.parking}</li>
           `;
 
-          // 연락처 (네 번째 bg-gray-50 p, a)
-          document.querySelectorAll(".bg-gray-50 p")[1].innerHTML = `<strong>전화번호:</strong> ${data.phoneNumber}`;
-          const homepageLink = document.querySelector(".bg-gray-50 a");
-          homepageLink.textContent = data.homepage;
-          homepageLink.href = data.homepage;
+          // 연락처 업데이트 (전화번호, 홈페이지, 인스타그램, 페이스북)
+          document.getElementById("contactPhone").innerHTML = `<strong>전화번호:</strong> ${data.phoneNumber}`;
+          document.getElementById("contactHomepage").innerHTML = `<strong>홈페이지:</strong> <a href="${data.homepage}" target="_blank" class="text-blue-600 underline">${data.homepage}</a>`;
+          document.getElementById("contactInstagram").innerHTML = `<strong>인스타그램:</strong> <a href="${data.instagram}" target="_blank" class="text-blue-600 underline">${data.instagram}</a>`;
+          document.getElementById("contactFacebook").innerHTML = `<strong>페이스북:</strong> <a href="${data.facebook}" target="_blank" class="text-blue-600 underline">${data.facebook}</a>`;
 
-          // 추가 설명 (다섯 번째 bg-gray-50 p)
-          document.querySelectorAll(".bg-gray-50 p")[2].textContent = data.additionalDesc;
+          // 추가 설명
+          document.getElementById("additionalDesc").textContent = data.additionalDesc;
 
-          // 지도 주소 표시
+          // 지도 주소 업데이트
           const addressFull = data.roadAddress + ' ' + data.detailAddress;
           document.getElementById("addressText").textContent = addressFull;
           updateMap(addressFull);
 
-          // 메뉴 항목
+          // 메뉴 항목 업데이트
           const menuList = document.getElementById("menuList");
           menuList.innerHTML = "";
           if (data.menuItems && Array.isArray(data.menuItems)) {
@@ -231,6 +248,13 @@
             });
           } else {
             menuList.innerHTML = "<li>메뉴가 없습니다.</li>";
+          }
+
+          // 이미지 슬라이더 업데이트 (등록된 이미지가 있는 경우)
+          if (data.images && Array.isArray(data.images) && data.images.length > 0) {
+            images = data.images;
+            currentIndex = 0;
+            sliderImage.src = images[0];
           }
         })
         .catch((err) => {
