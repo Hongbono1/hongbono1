@@ -5,17 +5,17 @@ const multer = require("multer");
 const mysql = require("mysql2");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// ✅ 정적 파일 경로 설정
+// 정적 파일 경로 설정
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
-// ✅ JSON & URL 인코딩 파싱
+// JSON & URL 인코딩 파싱
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Multer 파일 업로드 설정
+// Multer 파일 업로드 설정
 const storage = multer.diskStorage({
   destination: "public/uploads/",
   filename: (req, file, cb) => {
@@ -29,7 +29,7 @@ const fieldsUpload = upload.fields([
   { name: "menuImage[]", maxCount: 20 },
 ]);
 
-// ✅ MySQL 연결
+// MySQL 연결
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -46,7 +46,7 @@ db.connect((err) => {
   console.log("✅ MySQL 연결 성공!");
 });
 
-// ✅ [POST] 병원 정보 + 메뉴 저장
+// [POST] 병원 정보 + 메뉴 저장
 app.post("/store", fieldsUpload, (req, res) => {
   const {
     businessName, businessType, deliveryOption, businessHours,
@@ -124,7 +124,7 @@ app.post("/store", fieldsUpload, (req, res) => {
   });
 });
 
-// ✅ [GET] 병원 상세 정보 DB에서 조회
+// [GET] 병원 상세 정보 DB에서 조회
 app.get("/store/:id", (req, res) => {
   const { id } = req.params;
 
@@ -180,12 +180,12 @@ app.get("/store/:id", (req, res) => {
   });
 });
 
-// ✅ 루트 라우터 (확인용)
+// 루트 라우터 (확인용)
 app.get("/", (req, res) => {
   res.send("✅ Node.js 서버 작동 중입니다!");
 });
 
-// ✅ 서버 실행
+// 서버 실행
 app.listen(PORT, () => {
   console.log(`🚀 서버 실행: http://localhost:${PORT}`);
 });
