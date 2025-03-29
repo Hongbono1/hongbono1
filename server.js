@@ -76,6 +76,7 @@ app.post("/store", fieldsUpload, (req, res) => {
       console.error("❌ hospital_info INSERT 실패:", err);
       return res.status(500).json({ error: "병원 정보 저장 실패" });
     }
+
     const hospitalId = result.insertId;
 
     const menuNames = req.body["menuName[]"];
@@ -86,6 +87,7 @@ app.post("/store", fieldsUpload, (req, res) => {
     const safePrices = Array.isArray(menuPrices) ? menuPrices : menuPrices ? [menuPrices] : [];
 
     let menuInserts = [];
+
     for (let i = 0; i < safeNames.length; i++) {
       const thisName = safeNames[i];
       const thisPrice = safePrices[i] || 0;
@@ -178,7 +180,7 @@ app.get("/store/:id", (req, res) => {
   });
 });
 
-// ✅ 기본 라우터
+// ✅ 루트 라우터 (확인용)
 app.get("/", (req, res) => {
   res.send("✅ Node.js 서버 작동 중입니다!");
 });
@@ -186,59 +188,4 @@ app.get("/", (req, res) => {
 // ✅ 서버 실행
 app.listen(PORT, () => {
   console.log(`🚀 서버 실행: http://localhost:${PORT}`);
-});
-
-// ✅ [GET] 병원 상세 정보 DB에서 조회
-  const { id } = req.params;
-
-  const sqlInfo = "SELECT * FROM hospital_info WHERE id = ?";
-  db.query(sqlInfo, [id], (err, infoResult) => {
-    if (err) {
-      console.error("❌ 병원 정보 조회 실패:", err);
-      return res.status(500).json({ error: "서버 오류: 병원 정보 조회 실패" });
-    }
-
-    if (infoResult.length === 0) {
-      return res.status(404).json({ error: "해당 ID의 병원 정보가 없습니다." });
-    }
-
-    const info = infoResult[0];
-
-    const sqlMenu = "SELECT * FROM hospital_menu WHERE hospital_id = ?";
-    db.query(sqlMenu, [id], (err2, menuResult) => {
-      if (err2) {
-        console.error("❌ 메뉴 조회 실패:", err2);
-        return res.status(500).json({ error: "서버 오류: 메뉴 조회 실패" });
-      }
-
-      const data = {
-        businessName: info.name,
-        businessType: info.category,
-        deliveryOption: info.delivery,
-        businessHours: info.open_hours,
-        serviceDetails: info.service_details,
-        event1: info.event1,
-        event2: info.event2,
-        facility: info.facility,
-        pets: info.pets,
-        parking: info.parking,
-        phoneNumber: info.phone,
-        homepage: info.homepage,
-        instagram: info.instagram,
-        facebook: info.facebook,
-        additionalDesc: info.additional_desc,
-        images: [], // 필요시 수정
-        postalCode: info.postal_code,
-        roadAddress: info.road_address,
-        detailAddress: info.detail_address,
-        menuItems: menuResult.map((menu) => ({
-          menuName: menu.menu_name,
-          menuPrice: menu.menu_price,
-          menuImageUrl: menu.menu_image,
-        })),
-      };
-
-      res.json(data);
-    });
-  });
 });
