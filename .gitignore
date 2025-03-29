@@ -1,0 +1,6 @@
+# Node.js 기본 무시 목록
+node_modules/
+.env
+.DS_Store
+uploads/
+*.log
